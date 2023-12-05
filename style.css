@@ -1,0 +1,27 @@
+body {
+    font-family: 'Arial', sans-serif;
+ 
+  
+
+margin: 20px;
+}
+
+.learner-container {
+border: 1px solid #ddd;
+padding: 10px;
+margin-bottom: 10px;
+}
+
+.learner-info {
+font-weight: bold;
+margin-bottom: 5px;
+}
+
+.assignment-scores {
+list-style: none;
+padding: 0;
+}
+
+.assignment-item {
+margin-bottom: 5px;
+}
