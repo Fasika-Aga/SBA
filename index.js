@@ -1,4 +1,3 @@
-
 const CourseInfo = {
   id: 451,
   name: "Introduction to JavaScript",
@@ -79,17 +78,24 @@ function calculateWeightedAverage(submissions, assignments) {
   let totalWeight = 0;
 
   for (const submission of submissions) {
-    const assignment = assignments.find((a) => a.id === submission.assignment_id);
+    const assignment = assignments.find(
+      (a) => a.id === submission.assignment_id
+    );
 
     if (new Date(assignment.due_at) > new Date()) {
       continue;
     }
 
-    if (new Date(submission.submission.submitted_at) > new Date(assignment.due_at)) {
+    if (
+      new Date(submission.submission.submitted_at) > new Date(assignment.due_at)
+    ) {
       submission.submission.score *= 0.9;
     }
 
-    totalWeightedScore += (submission.submission.score / assignment.points_possible) * assignment.points_possible * assignment.group_weight;
+    totalWeightedScore +=
+      (submission.submission.score / assignment.points_possible) *
+      assignment.points_possible *
+      assignment.group_weight;
     totalWeight += assignment.group_weight;
   }
 
@@ -105,7 +111,10 @@ function processLearnerSubmissions(assignmentGroup, learnerSubmissions) {
 
   for (const learnerSubmission of learnerSubmissions) {
     const learnerId = learnerSubmission.learner_id;
-    const learnerAverage = calculateWeightedAverage([learnerSubmission], assignmentGroup.assignments);
+    const learnerAverage = calculateWeightedAverage(
+      [learnerSubmission],
+      assignmentGroup.assignments
+    );
 
     const learnerResult = {
       id: learnerId,
@@ -113,13 +122,16 @@ function processLearnerSubmissions(assignmentGroup, learnerSubmissions) {
     };
 
     for (const assignment of assignmentGroup.assignments) {
-      const submission = learnerSubmissions.find((s) => s.assignment_id === assignment.id);
+      const submission = learnerSubmissions.find(
+        (s) => s.assignment_id === assignment.id
+      );
 
       if (new Date(assignment.due_at) > new Date()) {
         continue;
       }
 
-      learnerResult[assignment.id] = (submission.submission.score / assignment.points_possible) * 100;
+      learnerResult[assignment.id] =
+        (submission.submission.score / assignment.points_possible) * 100;
     }
 
     results.push(learnerResult);
@@ -130,23 +142,31 @@ function processLearnerSubmissions(assignmentGroup, learnerSubmissions) {
 
 function validateAssignmentGroup(courseInfo, assignmentGroup) {
   if (courseInfo.id !== assignmentGroup.course_id) {
-    throw new Error("AssignmentGroup does not belong to its course. Invalid input.");
+    throw new Error(
+      "AssignmentGroup does not belong to its course. Invalid input."
+    );
   }
 }
 
 function getLearnerData(courseInfo, assignmentGroup, learnerSubmissions) {
   validateAssignmentGroup(courseInfo, assignmentGroup);
 
-  const results = processLearnerSubmissions(assignmentGroup, learnerSubmissions);
+  const results = processLearnerSubmissions(
+    assignmentGroup,
+    learnerSubmissions
+  );
 
   return results;
 }
 
 // Example usage
 try {
-  const learnerData = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+  const learnerData = getLearnerData(
+    CourseInfo,
+    AssignmentGroup,
+    LearnerSubmissions
+  );
   console.log(learnerData);
 } catch (error) {
   console.error(error.message);
 }
-
